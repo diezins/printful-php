@@ -1,0 +1,20 @@
+@charset "utf-8";
+.title {
+	font-family: Courier;
+    color: #005CB9;
+    font-weight: bold;
+}
+
+.center {
+    max-width: 400px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.title {
+    text-align: center;
+}
+
+.form {
+    text-align: center;
+}
