@@ -7,7 +7,7 @@
         require_once '/mySQL/database.php';
 
         $db = getConnection();
-        $test = $_SESSION['questionIDs'];
+        $questionCount = sizeof($_SESSION['questionIDs']);
 
         if (isset($_POST['questionNum'])){
             // nesaņem postu ar attiecīgo vērtību
@@ -16,9 +16,9 @@
             $questionNum = 0; // uzstāda temp mainīgo, kas seko līdzi - kurš jautājums tiek pildīts
         }
 
-        if (sizeof($_SESSION['questionIDs'])-1 < $questionNum){
+        if (($questionCount-1) < $questionNum){
             ob_end_clean();
-            $json = json_encode(array("isLast" => true, "author" => $answers, "testID" => $questionNum, "redirect" => "3rdView"));
+            $json = json_encode(array("noMore" => true, "finish" => true, "redirect" => "3rdView"));
             echo $json;
             exit(); 
             // kopējie jautājumi ir mazāk par 'tagadējo'
@@ -42,19 +42,39 @@
             {
                 $answers = $answers . "<label class=\"button\"><input type=\"radio\" name=\"uzas\"><span>".$text2."</span></label>";
             }
-            if (sizeof($_SESSION['questionIDs'])-1 == $questionNum)
+            if ($questionCount-1 == $questionNum)
             {
-                // last element
-
-                $json_test = array("isLast" => true, "author" => $answers, "testID" => $questionNum, "redirect" => "3rdView");
+                // pēdējā elementa padošana elements
+                $question = getQuestion($id);
+                $json_test = array("noMore" => true, "title" => $question["title"], "text" => $question["text"],"test" => $questionNum, "author" => $answers, "testID" => $questionNumm);
+                //$json_test = array("noMore" => "test", "author" => $answers, "testID" => $questionNum, "redirect" => "3rdView");
             }
             else
             {
-                $json_test = array("isLast" => "false", "author" => $answers, "testID" => $questionNum);
+                $question = getQuestion($id);
+                $json_test = array("noMore" => $questionCount, "title" => $question, "test" => $questionNum, "author" => $answers, "testID" => $questionNumm);
             }
             $json = json_encode($json_test);
             ob_end_clean();
             echo $json;
             exit();
+        }
+
+        function getQuestion($id)
+        {
+            $db = getConnection();
+
+            $sql_query = "SELECT title, text FROM question
+                            WHERE question.id = $id";
+        
+            $stmt = $db->prepare($sql_query);
+            $stmt->execute();
+            $stmt->bind_result($title, $text);
+            
+            $stmt->fetch();
+
+            $response_array = array("title" => $title, "text" => $text);
+
+            return $response_array;
         }
 ?>

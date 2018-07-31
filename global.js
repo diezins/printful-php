@@ -12,16 +12,22 @@
             if (!$.trim(data)){
                 alert(1); // next is empty
             } 
-            else {
-                $('#options').empty();
+            else {   
                 var Data = $.parseJSON(data);
-                $('#options').append(Data.author);
-                if (String(Data.isLast) === "true")
+                $('#options').html(Data.author);
+                $('#title').html(Data.title);
+                $('#question').html(Data.text);
+                if (String(Data.noMore) === "true")
                 {   
+                    if (String(Data.finish) === "true")
+                    {
+                        window.location = Data.redirect;
+                    }
                     $('#next_button').val("Finišs");
-                    document.getElementById("next_buttom").onclick = Data.redirect;
+                    // alert(Data.noMore);
+                    // window.location = Data.redirect;
                     // un jāuzstāda arī redirect value
-                }                
+                }       
             }
         },
         error: function(request, statuss, error)

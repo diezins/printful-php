@@ -7,15 +7,15 @@ function changeQuestion(title, question){
     document.getElementById("question").innerHTML = question;
 }
 
-function changeAnswers(answerArray){
-    var list = document.querySelectorAll(".option"); // returns static NodeList  
-    for (var i = 0; i < list.length; i++) {
-        list[i].remove(); // removes answer options
-    }
+// function changeAnswers(answerArray){
+//     var list = document.querySelectorAll(".option"); // returns static NodeList  
+//     for (var i = 0; i < list.length; i++) {
+//         list[i].remove(); // removes answer options
+//     }
     
-    for (var i = 0; i < answerArray.length; i++)
-    {
-        document.createElement("button",[class{"option"}]); // creates the new ones 
-    }
-}
+//     for (var i = 0; i < answerArray.length; i++)
+//     {
+//         document.createElement("button",[class{"option"}]); // creates the new ones 
+//     }
+// }
 
