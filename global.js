@@ -17,9 +17,8 @@ function GetQuestion(){
             } 
             else {
                 // parse salūzt šeit 
-                alert(1);
                 var Data = $.parseJSON(data);
-                alert(Data.if);
+                // alert(Data.if);
                 if (String(Data.finish) === "true")
                 {
                     window.location = "3rdView";
@@ -29,10 +28,11 @@ function GetQuestion(){
                     $('#options').html(Data.author);
                     $('#title').html(Data.title);
                     $('#question').html(Data.text);
-                    alert(1);
+                    // alert(1);
                     if (String(Data.noMore) === "true")
                     {   
                         $('#next_button').val("Finišs"); 
+                        document.getElementById('next_button').setAttribute("onClick", "Finish()");
                     }
 
                 }
@@ -43,4 +43,8 @@ function GetQuestion(){
             alert("error in global.js");
         }
       });
+}
+
+function Finish(){
+    location.href = '3rdView.php';
 }

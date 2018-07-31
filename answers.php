@@ -16,6 +16,7 @@
             $questionNum = 0; // uzstāda temp mainīgo, kas seko līdzi - kurš jautājums tiek pildīts
         }
 
+            // MET ERRORU ŠEIT - vispār nevajag šitajā funkcijā likties, ja ir pēdējais jaut.
         $id = $_SESSION['questionIDs'][$questionNum];
 
         $sql_query_answers = "SELECT id, text FROM answer
@@ -52,33 +53,11 @@
         else if ($questionCount < $questionNum)
         {
             // $question = getQuestion($id);
-            $json_test = array("if"=>"last","noMore" => true, "finish" => true);
+            echo "yo";
+            exit();
+            //$json_test = array("if"=>"last", "noMore" => true, "finish" => true);
         } 
        
-        
-
-
-        // if ($questionCount == $questionNum)
-        // {
-        //     // pēdējais elements, uzliek 'finišu'
-        //     $question = getQuestion($id);
-        //     $json_test = array("if"=>"first", "noMore" => true, "title" => $question["title"], "text" => $question["text"],"test" => $questionNum, "author" => $answers, "testID" => $questionNumm);
-        
-        // }    
-        // else if ($questionCount < $questionNum)
-        // {
-        //     // $question = getQuestion($id);
-        //     $json_test = array("if"=>"second","noMore" => true, "finish" => true);
-        // } 
-        // else
-        // {
-        //     $question = getQuestion($id);
-        //     $json_test = array("if"=>"third", 
-        //     "noMore" => false, 
-        //     "title" => $question ["title"], 
-        //     "text" => $question["text"], 
-        //     "author" => $answers);
-        // }
         $json = json_encode($json_test);
         ob_end_clean();
         echo $json;
