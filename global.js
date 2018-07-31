@@ -1,4 +1,5 @@
-﻿$('input#next_button').on('click', GetQuestion());
+﻿//$('input#next_button').on('click', GetQuestion());
+$(document).ready(GetQuestion());
 
 function GetQuestion(){
     var x = parseInt(document.getElementById('questionNum').value);
@@ -12,26 +13,29 @@ function GetQuestion(){
         data: {questionNum:x},
         success: function(data){
             if (!$.trim(data)){
-                alert(1); // next is empty
+                alert("error from php response"); // next is empty
             } 
-            else {             
-                var Data = $.parseJSON(data);
-                $('#options').html(Data.author);
-                $('#title').html(Data.title);
-                $('#question').html(Data.text);
+            else {
+                // parse salūzt šeit 
                 alert(1);
-                if (String(Data.noMore) === "true")
-                {   
-                    if (String(Data.finish) === "true")
-                    {
-                        window.location = Data.redirect;
+                var Data = $.parseJSON(data);
+                alert(Data.if);
+                if (String(Data.finish) === "true")
+                {
+                    window.location = "3rdView";
+                } 
+                else
+                {
+                    $('#options').html(Data.author);
+                    $('#title').html(Data.title);
+                    $('#question').html(Data.text);
+                    alert(1);
+                    if (String(Data.noMore) === "true")
+                    {   
+                        $('#next_button').val("Finišs"); 
                     }
-                    $('#next_button').val("Finišs");
-                    // alert(Data.noMore);
-                    // window.location = Data.redirect;
-                    // un jāuzstāda arī redirect value
-                }    
-                
+
+                }
             }
         },
         error: function(request, statuss, error)

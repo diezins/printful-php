@@ -26,7 +26,6 @@
     while($stmt->fetch())
     {
         $questionIDArray[$key++] = $id;
-        $key++;
     }
     // saves question ID's in session
     $_SESSION['questionIDs'] = $questionIDArray;
@@ -40,6 +39,7 @@
             <link rel="stylesheet" Type="text/css" href="style.css" />
             <script type="text/javascript" src="jquery-3.3.1.min.js"></script>
             <script type="text/javascript" src="global.js"></script>
+
     </head>
 
     <body class="center">

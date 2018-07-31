@@ -7,7 +7,7 @@
         require_once '/mySQL/database.php';
 
         $db = getConnection();
-        $questionCount = sizeof($_SESSION['questionIDs']);
+        $questionCount = sizeof($_SESSION['questionIDs'])-1;
 
         if (isset($_POST['questionNum'])){
             // nesaņem postu ar attiecīgo vērtību
@@ -16,49 +16,73 @@
             $questionNum = 0; // uzstāda temp mainīgo, kas seko līdzi - kurš jautājums tiek pildīts
         }
 
-        if (($questionCount) < $questionNum){
-            ob_end_clean();
-            $json = json_encode(array("noMore" => true, "finish" => true, "redirect" => "3rdView"));
-            echo $json;
-            exit(); 
-            // kopējie jautājumi ir mazāk par 'tagadējo'
-        } 
-        else 
-        {
-            $id = $_SESSION['questionIDs'][$questionNum];
+        $id = $_SESSION['questionIDs'][$questionNum];
 
-            $sql_query_answers = "SELECT id, text FROM answer
-            JOIN question_answer
-            ON answer.id = question_answer.answerID
-            && question_answer.questionID =  $id";
-        
-            $stmt = $db->prepare($sql_query_answers);
-            $stmt->execute();
-            $stmt->bind_result($id2, $text2);
-        
-            $answers = '';
-        
-            while($stmt->fetch()) 
-            {
-                $answers = $answers . "<label class=\"button\"><input type=\"radio\" name=\"uzas\"><span>".$text2."</span></label>";
-            }
-            if ($questionCount-1 == $questionNum)
-            {
-                // pēdējā elementa padošana elements
-                $question = getQuestion($id);
-                $json_test = array("noMore" => true, "title" => $question["title"], "text" => $question["text"],"test" => $questionNum, "author" => $answers, "testID" => $questionNumm);
-                //$json_test = array("noMore" => "test", "author" => $answers, "testID" => $questionNum, "redirect" => "3rdView");
-            }
-            else
-            {
-                $question = getQuestion($id);
-                $json_test = array("noMore" => $questionCount, "title" => $question["title"], "text" => $question["text"], "author" => $answers, "testID" => $questionNumm);
-            }
-            $json = json_encode($json_test);
-            ob_end_clean();
-            echo $json;
-            exit();
+        $sql_query_answers = "SELECT id, text FROM answer
+        JOIN question_answer
+        ON answer.id = question_answer.answerID
+        && question_answer.questionID =  $id";
+    
+        $stmt = $db->prepare($sql_query_answers);
+        $stmt->execute();
+        $stmt->bind_result($id2, $text2);
+    
+        $answers = '';
+        $json_test = '';
+    
+        while($stmt->fetch()) {
+            $answers = $answers . "<label class=\"button\"><input type=\"radio\" name=\"uzas\"><span>".$text2."</span></label>";
         }
+        
+        if ($questionCount > $questionNum)
+        {
+            $question = getQuestion($id);
+            $json_test = array("if"=>"first Qs", 
+            "noMore" => false, 
+            "title" => $question ["title"], 
+            "text" => $question["text"], 
+            "author" => $answers);
+        } else if ($questionCount == $questionNum)
+        {
+            // pēdējais elements, uzliek 'finišu'
+            $question = getQuestion($id);
+            $json_test = array("if"=>"priekšpēdējais", "noMore" => true, "title" => $question["title"], "text" => $question["text"],"test" => $questionNum, "author" => $answers, "testID" => $questionNumm);
+        
+        }    
+        else if ($questionCount < $questionNum)
+        {
+            // $question = getQuestion($id);
+            $json_test = array("if"=>"last","noMore" => true, "finish" => true);
+        } 
+       
+        
+
+
+        // if ($questionCount == $questionNum)
+        // {
+        //     // pēdējais elements, uzliek 'finišu'
+        //     $question = getQuestion($id);
+        //     $json_test = array("if"=>"first", "noMore" => true, "title" => $question["title"], "text" => $question["text"],"test" => $questionNum, "author" => $answers, "testID" => $questionNumm);
+        
+        // }    
+        // else if ($questionCount < $questionNum)
+        // {
+        //     // $question = getQuestion($id);
+        //     $json_test = array("if"=>"second","noMore" => true, "finish" => true);
+        // } 
+        // else
+        // {
+        //     $question = getQuestion($id);
+        //     $json_test = array("if"=>"third", 
+        //     "noMore" => false, 
+        //     "title" => $question ["title"], 
+        //     "text" => $question["text"], 
+        //     "author" => $answers);
+        // }
+        $json = json_encode($json_test);
+        ob_end_clean();
+        echo $json;
+        exit();
 
         function getQuestion($id)
         {
