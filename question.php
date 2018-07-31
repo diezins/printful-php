@@ -16,7 +16,7 @@
 
     $id = $_SESSION['questionIDs'][$questionNum]; // paņem jautājuma-ID
 
-    $sql_query_answers = "SELECT id, text FROM answer
+    $sql_query_answers = "SELECT answer.id, text FROM answer
                             JOIN question_answer
                             ON answer.id = question_answer.answerID
                             && question_answer.questionID =  $id";
