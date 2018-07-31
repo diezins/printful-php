@@ -8,7 +8,7 @@ function GetQuestion(){
     
     // returns formated answer options for question ID in #questionID
     $.post({
-        url: 'answers.php',
+        url: 'question.php',
         type: 'POST',
         data: {questionNum:x},
         success: function(data){
