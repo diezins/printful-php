@@ -6,7 +6,7 @@ function GetQuestion(){
     var newID = x + 1;
     $('#questionNum').val(newID);
     
-    // returns formated answer options for question ID in #questionID
+    // returns and sets new question and possible answers
     $.post({
         url: 'question.php',
         type: 'POST',
@@ -16,9 +16,8 @@ function GetQuestion(){
                 alert("error from php response"); // next is empty
             } 
             else {
-                // parse salūzt šeit 
                 var Data = $.parseJSON(data);
-                // alert(Data.if);
+                alert(1);
                 if (String(Data.finish) === "true")
                 {
                     window.location = "3rdView";
@@ -48,3 +47,4 @@ function GetQuestion(){
 function Finish(){
     location.href = '3rdView.php';
 }
+

@@ -64,4 +64,53 @@
 
         return $response_array;
     }
+
+    // function set_usernameID($username)
+    // {
+    //     if (isset($_SESSION['username']))
+    //     {
+    //         $username = $_SESSION['username'];
+    //         $sql_query = "SELECT id FROM user where user.username = $username";
+
+    //         $db = getConnection();
+    //         $stmt = $db->prepare($sql_query);
+    //         $stmt->execute();
+    //         $stmt->bind_result($id);
+    //         $stmt->fetch();
+
+    //         $_SESSION['user_id'] = $id;
+    //     }
+    // }
+
+    // function save_answer($answerID, $questionID)
+    // {
+    //     if (isset($_SESSION['user_id']))
+    //     {
+    //         $userID = $_SESSION['user_id'];
+    //         $sql_query = "SELECT id FROM question_answer WHERE questionID = $questionID && answerID = $answerID"
+
+    //         $db = getConnection();
+    //         $stmt = $db->prepare($sql_query);
+    //         $stmt->execute();
+    //         $stmt->bind_result($id);
+    //         $stmt->fetch();
+
+    //         // $id ir question/answer kombinācijas id
+
+    //         $insertion_sql_query = "INSERT INTO user_answers (question_answer_id, user_id) VALUES (?, ?)";
+    //         $stmt = $db->prepare($insertion_sql_query);
+    //         $stmt->bind_param('dd', $id, $userID);
+    //         $is_successful = $stmt->execute();
+
+    //         if($is_successful){
+    //             // redirect to next
+    //         } else {
+    //             echo "bad stuff happened";
+    //         }
+    //     }
+        
+        
+        // find question_answer id depending on passed values
+
+    }
 ?>
