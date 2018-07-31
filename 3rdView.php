@@ -11,11 +11,13 @@
 
     <body class="center">
         <div class="title">
-            Paldies, [name].
+            Paldies, [name]. - php vajag
         </div>
         <div>
-            Tu pareizi atbildēji uz [number] jautājumiem!
+            Tu pareizi atbildēji uz [number] jautājumiem! - arī php vajag
+            un pie reizes iznīcnāt session
         </div>
+        <a href="index"><button>Atpakaļ uz sākumu</button></a>
     </body>
 </html>
 
