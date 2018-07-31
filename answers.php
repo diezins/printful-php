@@ -16,7 +16,7 @@
             $questionNum = 0; // uzstāda temp mainīgo, kas seko līdzi - kurš jautājums tiek pildīts
         }
 
-        if (($questionCount-1) < $questionNum){
+        if (($questionCount) < $questionNum){
             ob_end_clean();
             $json = json_encode(array("noMore" => true, "finish" => true, "redirect" => "3rdView"));
             echo $json;
@@ -52,7 +52,7 @@
             else
             {
                 $question = getQuestion($id);
-                $json_test = array("noMore" => $questionCount, "title" => $question, "test" => $questionNum, "author" => $answers, "testID" => $questionNumm);
+                $json_test = array("noMore" => $questionCount, "title" => $question["title"], "text" => $question["text"], "author" => $answers, "testID" => $questionNumm);
             }
             $json = json_encode($json_test);
             ob_end_clean();

@@ -1,22 +1,25 @@
-﻿$('input#next_button').on('click', function() {
-    $id = document.getElementById('questionNum').value;
-    $id++;
-    $('#questionNum').val($id);
+﻿$('input#next_button').on('click', GetQuestion());
+
+function GetQuestion(){
+    var x = parseInt(document.getElementById('questionNum').value);
+    var newID = x + 1;
+    $('#questionNum').val(newID);
     
     // returns formated answer options for question ID in #questionID
     $.post({
         url: 'answers.php',
         type: 'POST',
-        data: {questionNum:$id},
+        data: {questionNum:x},
         success: function(data){
             if (!$.trim(data)){
                 alert(1); // next is empty
             } 
-            else {   
+            else {             
                 var Data = $.parseJSON(data);
                 $('#options').html(Data.author);
                 $('#title').html(Data.title);
                 $('#question').html(Data.text);
+                alert(1);
                 if (String(Data.noMore) === "true")
                 {   
                     if (String(Data.finish) === "true")
@@ -27,7 +30,8 @@
                     // alert(Data.noMore);
                     // window.location = Data.redirect;
                     // un jāuzstāda arī redirect value
-                }       
+                }    
+                
             }
         },
         error: function(request, statuss, error)
@@ -35,4 +39,4 @@
             alert("error in global.js");
         }
       });
-});
+}
