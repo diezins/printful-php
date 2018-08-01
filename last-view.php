@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿<?php require_once("/final.php");?>
+
+<!DOCTYPE html>
 <html lang="lv">
 <html>
     <head>
@@ -11,11 +13,7 @@
 
     <body class="center">
         <div class="title">
-            Paldies, [name]. - php vajag
-        </div>
-        <div>
-            Tu pareizi atbildēji uz [number] jautājumiem! - arī php vajag
-            un pie reizes iznīcnāt session
+            Paldies!
         </div>
         <a href="index"><button>Atpakaļ uz sākumu</button></a>
     </body>

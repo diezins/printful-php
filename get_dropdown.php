@@ -14,8 +14,6 @@
 
     while($stmt->fetch())
     {
-        // $elementArray[$key] = new Test($id, $name, $description);
-        // echo "<option value='" . $elementArray[$key]->id . "'>" . $elementArray[$key]->name . "</option>";
         echo "<option value='" . $id . "'>" . $name . "</option>";
     }
     echo "</select><br>";

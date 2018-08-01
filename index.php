@@ -1,4 +1,4 @@
-<?php require_once("/start.php"); // uzspiežot 'sākt' viņš vēlreiz iziet cauri šim php ?>
+<?php require_once("/start.php");?>
 
 <!DOCTYPE html>
 <html lang="lv">
@@ -6,11 +6,12 @@
             <title>Printful</title>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="newcss.css" />
+            <link rel="stylesheet" href="style.css" />
             <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     </head>
-
     <body>
+    <?php require_once("/start.php"); // uzspiežot 'sākt' viņš vēlreiz iziet cauri šim php ?>
+
         <div>
             Vārds
         </div>
@@ -22,6 +23,5 @@
         </form>
         
         <script src="scripts.js"></script>
-        <script src="global.js"></script>
     </body>
 </html>

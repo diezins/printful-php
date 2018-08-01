@@ -1,6 +1,0 @@
-﻿SELECT * FROM question
-JOIN question_answer ON question.questionID = question_answer.questionID
-
-SELECT * FROM question
-JOIN survey_question ON question.questionID = survey_question.questionID 
-                            && survey_question.surveyID = 1

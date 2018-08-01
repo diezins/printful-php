@@ -1,14 +1,8 @@
 ﻿<?php
-    if(!isset($_SESSION)) 
+    // destroy session 
+    if(isset($_SESSION)) 
     { 
-        session_start(); 
+        session_destroy();
     } 
-
-    function Redirect($url, $permanent = false)
-    {
-        header('Location: ' . $url, true, $permanent ? 301 : 302);
-    
-        exit();
-    }
 ?>
     

@@ -4,6 +4,9 @@
         session_start(); 
     } 
 
+    set_usernameID();
+    save_answer();
+
     require_once '/mySQL/database.php';
 
     $questionCount = sizeof($_SESSION['questionIDs'])-1;
@@ -33,7 +36,6 @@
     
     if ($questionCount > $questionNum)
     {
-        // pirmie jautājumi
         $question = getQuestion($id);
         $json_test = array("noMore" => false, "title" => $question ["title"], "text" => $question["text"], "author" => $answers);
     } else if ($questionCount == $questionNum) {
@@ -65,52 +67,60 @@
         return $response_array;
     }
 
-    // function set_usernameID($username)
-    // {
-    //     if (isset($_SESSION['username']))
-    //     {
-    //         $username = $_SESSION['username'];
-    //         $sql_query = "SELECT id FROM user where user.username = $username";
+    function set_usernameID()
+    {
+        require_once '/mySQL/database.php';
 
-    //         $db = getConnection();
-    //         $stmt = $db->prepare($sql_query);
-    //         $stmt->execute();
-    //         $stmt->bind_result($id);
-    //         $stmt->fetch();
+        if (isset($_SESSION['username']))
+        {
+            $username = $_SESSION['username'];
+            $db = getConnection();
+            $username = $db->real_escape_string($username);
+            $sql_query = "SELECT id FROM user where user.username = '$username'";
 
-    //         $_SESSION['user_id'] = $id;
-    //     }
-    // }
 
-    // function save_answer($answerID, $questionID)
-    // {
-    //     if (isset($_SESSION['user_id']))
-    //     {
-    //         $userID = $_SESSION['user_id'];
-    //         $sql_query = "SELECT id FROM question_answer WHERE questionID = $questionID && answerID = $answerID"
+            $stmt = $db->prepare($sql_query);
+            $stmt->execute();
+            $stmt->bind_result($id);
+            $stmt->fetch();
 
-    //         $db = getConnection();
-    //         $stmt = $db->prepare($sql_query);
-    //         $stmt->execute();
-    //         $stmt->bind_result($id);
-    //         $stmt->fetch();
-
-    //         // $id ir question/answer kombinācijas id
-
-    //         $insertion_sql_query = "INSERT INTO user_answers (question_answer_id, user_id) VALUES (?, ?)";
-    //         $stmt = $db->prepare($insertion_sql_query);
-    //         $stmt->bind_param('dd', $id, $userID);
-    //         $is_successful = $stmt->execute();
-
-    //         if($is_successful){
-    //             // redirect to next
-    //         } else {
-    //             echo "bad stuff happened";
-    //         }
-    //     }
-        
-        
-        // find question_answer id depending on passed values
-
+            $_SESSION['user_id'] = $id;
+        }
     }
+
+    function save_answer()
+    {
+        require_once '/mySQL/database.php';
+
+        if (isset($_SESSION['user_id']))
+        {
+            $userID = $_SESSION['user_id'];
+            $db = getConnection();
+            $userID = $db->real_escape_string($userID);
+
+            $questionID = $_POST['questionID'];
+            $answerID = $_POST['answerID'];
+
+            $sql_query = "SELECT id FROM question_answer WHERE questionID = '$questionID' && answerID = '$answerID'";
+
+            
+            $stmt = $db->prepare($sql_query);
+            $stmt->execute();
+            $stmt->bind_result($id); // $id ir question/answer kombinācijas id
+            $stmt->fetch();
+
+            $insertion_sql_query = "INSERT INTO user_answers (question_answer_id, user_id) VALUES (? , ?)";
+            $stmt = $db->prepare($insertion_sql_query);
+            $test2 = 3;
+            $stmt->bind_param('ii', $id, $userID);
+            $is_successful = $stmt->execute();
+
+            if($is_successful){
+                // redirect to next
+            } else {
+                echo "bad stuff happened";
+            }
+        }
+    }
+
 ?>

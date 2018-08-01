@@ -1,8 +1,6 @@
 <?php
     session_start();
     require '/mySQL/database.php';
-    require 'question_object.php';
-
 
     if (!isset($_SESSION['username']) && !isset($_SESSION['testID'])) {
         header("Location: index");
@@ -38,8 +36,6 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" Type="text/css" href="style.css" />
             <script type="text/javascript" src="jquery-3.3.1.min.js"></script>
-            <script type="text/javascript" src="global.js"></script>
-
     </head>
 
     <body class="center">
@@ -54,13 +50,11 @@
             </div>
             <input type="hidden" value=0 id="questionNum">
             <input type="button" onclick="GetQuestion()" value="Next" id="next_button">
-            <input type="button" value="Dzēst">
         </form>
 
         <div id="results">
                 
         </div>
-        <script src="global.js"></script>
         <script src="scripts.js"></script>
 
     </body>
